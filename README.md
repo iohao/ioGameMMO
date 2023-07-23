@@ -22,7 +22,7 @@
 
 | github                                                      | gitee                                                      |
 | ----------------------------------------------------------- | ---------------------------------------------------------- |
-| [ioGameMMO 回合制网络游戏源码](https://gitee.com/iohao/ioGameMMO) | [ioGameMMO 回合制网络游戏源码](https://github.com/iohao/ioGameMMO) |
+| [ioGameMMO 回合制网络游戏源码](https://github.com/iohao/ioGameMMO) | [ioGameMMO 回合制网络游戏源码](https://gitee.com/iohao/ioGameMMO) |
 
 
 
