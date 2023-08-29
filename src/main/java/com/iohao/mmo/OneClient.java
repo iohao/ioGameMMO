@@ -16,13 +16,14 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-package com.iohao.mmo.client;
+package com.iohao.mmo;
 
 import com.iohao.game.external.client.InputCommandRegion;
 import com.iohao.game.external.client.join.ClientRunOne;
 import com.iohao.game.external.client.user.ClientUser;
 import com.iohao.game.external.client.user.DefaultClientUser;
 import com.iohao.mmo.login.client.LoginInputCommandRegion;
+import lombok.extern.slf4j.Slf4j;
 
 import java.util.List;
 
@@ -30,7 +31,14 @@ import java.util.List;
  * @author 渔民小镇
  * @date 2023-07-21
  */
-public class CommonClient {
+@Slf4j
+public class OneClient {
+    public static void main(String[] args) {
+        // 模拟玩家 1
+        long userId = 1;
+        start(userId);
+    }
+
     private static List<InputCommandRegion> listInputCommandRegion() {
         LoginInputCommandRegion loginInputCommandRegion = new LoginInputCommandRegion();
         // 模拟请求数据
