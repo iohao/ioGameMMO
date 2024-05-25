@@ -18,17 +18,14 @@
  */
 package com.iohao.mmo.login.client;
 
-import com.iohao.game.common.kit.InternalKit;
 import com.iohao.game.common.kit.StrKit;
+import com.iohao.game.common.kit.concurrent.TaskKit;
 import com.iohao.game.external.client.AbstractInputCommandRegion;
-import com.iohao.game.external.client.command.InputRequestData;
 import com.iohao.game.external.client.kit.AssertKit;
 import com.iohao.mmo.login.cmd.LoginCmd;
 import com.iohao.mmo.login.proto.LoginVerify;
 import com.iohao.mmo.login.proto.UserInfo;
 import lombok.extern.slf4j.Slf4j;
-
-import java.util.concurrent.TimeUnit;
 
 /**
  * @author 渔民小镇
@@ -43,24 +40,21 @@ public class LoginInputCommandRegion extends AbstractInputCommandRegion {
         String jwt = clientUser.getJwt();
         AssertKit.assertTrueThrow(StrKit.isEmpty(jwt), "必须设置登录用的 jwt");
 
-        // 动态请求参数
-        InputRequestData inputRequestData = () -> {
+        this.ofCommand(LoginCmd.loginVerify).setTitle("登录").setRequestData(() -> {
             // 请求参数
             LoginVerify loginVerify = new LoginVerify();
             loginVerify.jwt = clientUser.getJwt();
             return loginVerify;
-        };
-
-        ofCommand(LoginCmd.loginVerify).callback(UserInfo.class, result -> {
-            UserInfo userInfo = result.getValue();
+        }).callback(result -> {
+            UserInfo userInfo = result.getValue(UserInfo.class);
             log.info("登录成功 : {}", userInfo);
             clientUser.setUserId(userInfo.id);
             clientUser.setNickname(userInfo.name);
-        }).setDescription("登录").setInputRequestData(inputRequestData);
+        });
 
-        InternalKit.newTimeout(task -> {
+        TaskKit.runOnceSecond(() -> {
             // 自动登录
-            ofRequestCommand(LoginCmd.loginVerify).request();
-        }, 200, TimeUnit.MILLISECONDS);
+            ofRequestCommand(LoginCmd.loginVerify).execute();
+        });
     }
 }

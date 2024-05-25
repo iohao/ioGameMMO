@@ -61,6 +61,4 @@ public class OneClient {
                 .setInputCommandRegions(inputCommandRegions)
                 .startup();
     }
-
-
 }

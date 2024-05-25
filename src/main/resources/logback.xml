@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<configuration scan="true">
-
+<configuration debug="false">
+    <!-- 关闭 logback 启动时打印的无效日志 -->
+    <statusListener class="ch.qos.logback.core.status.NopStatusListener"/>
     <!-- 日志级别 -->
     <property name="log.root.level" value="INFO"/>
     <!-- 其他日志级别 -->
@@ -12,8 +13,8 @@
     <property name="log.max.size" value="100MB"/> <!-- 日志文件大小,超过这个大小将被压缩 -->
 
     <!-- 彩色日志 -->
-    <property name="log.pattern" value="%cyan(%d{HH:mm:ss.SSS}) %green([%thread]) %highlight(%-5level) %cyan(%method) %cyan(\\(%file:%line\\)) - %msg%n" />
-
+    <property name="log.pattern"
+              value="%d{HH:mm:ss.SSS} %green([%thread]) %highlight(%-5level) %cyan(%logger{5}).%M\(%F:%L\) %m%n"/>
     <!--控制台输出 -->
     <appender name="stdout" class="ch.qos.logback.core.ConsoleAppender">
         <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
@@ -97,7 +98,7 @@
     </appender>
 
     <!-- 为某个包下的所有类的指定Appender 这里也可以指定类名称例如：com.aa.bb.ClassName -->
-    <logger name="com.iohao.mmo" additivity="false">
+    <logger name="com.iohao.game" additivity="false">
         <level value="${log.root.level}"/>
         <appender-ref ref="stdout"/>
         <appender-ref ref="file.async"/><!-- 即com.iohao.game包下级别为 ${log.root.level}的才会使用file.async来打印 -->
